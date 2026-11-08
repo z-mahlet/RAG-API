@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     CHROMA_PERSIST_DIR: str = "./db"
     COLLECTION_NAME: str = "knowledge_base"
     EMBEDDING_MODEL: str = "gemini-embedding-001"
-    LLM_MODEL: str = "gemini-2.5-flash"
+    LLM_MODEL: str = "gemini-3.8-flash"
 
     # Automatically load environment variables from the .env file
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
