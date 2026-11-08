@@ -1,10 +1,12 @@
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 import chromadb
 from google import genai
 from google.genai import types
 from config import settings
+from fastapi.staticfiles import StaticFiles
 
 # 1. Initialize FastAPI Application
 app = FastAPI(
@@ -22,6 +24,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Mount static files directory to serve the chat widget directly
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+@app.get("/", include_in_schema=False)
+def home():
+    return FileResponse("static/widget.html")
+
 
 # 3. Instantiate Persistent Clients
 gemini_client = genai.Client(api_key=settings.GEMINI_API_KEY)
