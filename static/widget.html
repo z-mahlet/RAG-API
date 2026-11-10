@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Knowledge Assistant</title>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Mobile Assistant</title>
   <style>
     :root {
-      --primary: #1a73e8;
-      --primary-hover: #1557b0;
+      --primary: #2563eb;
       --bg: #f8fafc;
       --panel: #ffffff;
       --text: #0f172a;
-      --text-muted: #64748b;
-      --bubble-user: #1a73e8;
-      --bubble-bot: #f1f5f9;
       --border: #e2e8f0;
     }
 
@@ -21,149 +19,131 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: transparent;
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
     }
 
-    /* Floating Launcher Button */
-    #chat-launcher {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      background-color: var(--primary);
-      color: #ffffff;
-      border: none;
-      cursor: pointer;
-      font-size: 26px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-      transition: transform 0.2s ease, background-color 0.2s ease;
-      z-index: 99999;
-    }
-
-    #chat-launcher:hover {
-      background-color: var(--primary-hover);
-      transform: scale(1.05);
-    }
-
-    /* Floating Chat Container */
-    #chat-container {
-      position: fixed;
-      bottom: 96px;
-      right: 24px;
-      width: 380px;
-      height: 540px;
-      max-width: calc(100vw - 48px);
-      max-height: calc(100vh - 120px);
-      background-color: var(--panel);
-      border-radius: 14px;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+    #app-container {
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      z-index: 99999;
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      height: 100%;
+      height: 100dvh;
+      /* Dynamic viewport height for mobile browser bars */
     }
 
-    #chat-container.hidden {
-      display: none !important;
-    }
-
-    /* Header Bar */
-    .chat-header {
-      background-color: var(--primary);
+    .mobile-header {
+      background: var(--primary);
       color: #ffffff;
-      padding: 14px 18px;
+      padding: 16px;
+      font-size: 16px;
       font-weight: 600;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
     }
 
-    .chat-header-title {
-      font-size: 15px;
-      letter-spacing: 0.2px;
-    }
-
-    .chat-close-btn {
-      background: none;
-      border: none;
-      color: #ffffff;
-      font-size: 20px;
-      cursor: pointer;
-      line-height: 1;
-    }
-
-    /* Scrollable Message Box */
-    .chat-messages {
+    .mobile-messages {
       flex: 1;
       padding: 16px;
       overflow-y: auto;
-      background-color: var(--bg);
       display: flex;
       flex-direction: column;
       gap: 12px;
+      background: var(--bg);
     }
 
-    .message {
-      max-width: 82%;
+    .msg {
+      max-width: 85%;
       padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 13.5px;
-      line-height: 1.5;
-      word-wrap: break-word;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.45;
+      word-break: break-word;
     }
 
-    .message.user {
+    .msg.user {
       align-self: flex-end;
-      background-color: var(--bubble-user);
+      background: var(--primary);
       color: #ffffff;
       border-bottom-right-radius: 2px;
     }
 
-    .message.bot {
+    .msg.bot {
       align-self: flex-start;
-      background-color: var(--bubble-bot);
+      background: var(--panel);
       color: var(--text);
+      border: 1px solid var(--border);
       border-bottom-left-radius: 2px;
-      border: 1px solid #e2e8f0;
     }
 
-    /* Source Citation Details */
-    .source-box {
+    .sources {
       margin-top: 8px;
       padding-top: 6px;
       border-top: 1px dashed #cbd5e1;
       font-size: 11px;
-      color: var(--text-muted);
+      color: #64748b;
     }
 
     .source-tag {
       display: inline-block;
       background: #e2e8f0;
       color: #334155;
-      border-radius: 4px;
       padding: 2px 6px;
+      border-radius: 4px;
       margin: 2px 4px 2px 0;
       font-weight: 500;
     }
 
-    /* Loading Indicator */
-    .typing-indicator {
+    .mobile-input-bar {
+      display: flex;
+      padding: 12px;
+      background: var(--panel);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+
+    .mobile-input-bar input {
+      flex: 1;
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 20px;
+      font-size: 15px;
+      outline: none;
+      background: #f1f5f9;
+    }
+
+    .mobile-input-bar button {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .typing {
       display: flex;
       gap: 4px;
       padding: 10px 14px;
-      background-color: var(--bubble-bot);
-      border-radius: 10px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
       align-self: flex-start;
       width: fit-content;
     }
@@ -171,189 +151,129 @@
     .dot {
       width: 6px;
       height: 6px;
-      background: var(--text-muted);
+      background: #94a3b8;
       border-radius: 50%;
       animation: pulse 1.4s infinite ease-in-out both;
     }
 
-    .dot:nth-child(1) { animation-delay: -0.32s; }
-    .dot:nth-child(2) { animation-delay: -0.16s; }
+    .dot:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: -0.16s;
+    }
 
     @keyframes pulse {
-      0%, 80%, 100% { transform: scale(0); }
-      40% { transform: scale(1); }
-    }
 
-    /* Input Bar */
-    .chat-input-area {
-      display: flex;
-      padding: 10px;
-      background-color: var(--panel);
-      border-top: 1px solid var(--border);
-    }
+      0%,
+      80%,
+      100% {
+        transform: scale(0);
+      }
 
-    .chat-input-area input {
-      flex: 1;
-      padding: 9px 12px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 13.5px;
-      outline: none;
-      transition: border-color 0.2s ease;
-    }
-
-    .chat-input-area input:focus {
-      border-color: var(--primary);
-    }
-
-    .chat-input-area button {
-      margin-left: 8px;
-      background-color: var(--primary);
-      color: #ffffff;
-      border: none;
-      padding: 0 16px;
-      border-radius: 6px;
-      font-size: 13.5px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    .chat-input-area button:hover {
-      background-color: var(--primary-hover);
+      40% {
+        transform: scale(1);
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Floating Launcher Button -->
-  <button id="chat-launcher" onclick="toggleWidget()" title="Open Knowledge Chat">💬</button>
-
-  <!-- Main Chat Window (Hidden by default) -->
-  <div id="chat-container" class="hidden">
-    <div class="chat-header">
-      <div class="chat-header-title">Knowledge Base Assistant</div>
-      <button class="chat-close-btn" onclick="toggleWidget()">&times;</button>
+  <div id="app-container">
+    <div class="mobile-header" id="header-title">Assistant</div>
+    <div class="mobile-messages" id="msg-box">
+      <div class="msg bot">Hello! Ask me any question.</div>
     </div>
-
-    <div class="chat-messages" id="messagesBox">
-      <div class="message bot">
-        Hello! I'm your AI documentation assistant. Ask me questions about company policies, equipment stipends, or work hours.
-      </div>
-    </div>
-
-    <form class="chat-input-area" onsubmit="submitQuery(event)">
-      <input 
-        type="text" 
-        id="queryField" 
-        placeholder="Ask a question..." 
-        autocomplete="off" 
-        required 
-      />
-      <button type="submit" id="sendBtn">Send</button>
+    <form class="mobile-input-bar" onsubmit="handleSend(event)">
+      <input type="text" id="user-input" placeholder="Type a message..." autocomplete="off" required />
+      <button type="submit" id="send-btn">➤</button>
     </form>
   </div>
 
   <script>
-    // Universal API Endpoint pointing to the FastAPI backend
-    const API_ENDPOINT = "/api/chat";
+    // Extract configuration from URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const tenantId = params.get('tenant') || 'default';
+    const primaryColor = params.get('color') || '#2563eb';
+    const title = params.get('title') || 'Support Assistant';
 
-    function toggleWidget() {
-      const container = document.getElementById("chat-container");
-      container.classList.toggle("hidden");
-      if (!container.classList.contains("hidden")) {
-        document.getElementById("queryField").focus();
-      }
-    }
+    document.documentElement.style.setProperty('--primary', primaryColor);
+    document.getElementById('header-title').textContent = title;
+
+    const API_URL = '/api/chat';
 
     function appendMessage(text, sender, sources = []) {
-      const box = document.getElementById("messagesBox");
-      const msgDiv = document.createElement("div");
-      msgDiv.className = `message ${sender}`;
-      msgDiv.textContent = text;
+      const box = document.getElementById('msg-box');
+      const div = document.createElement('div');
+      div.className = `msg ${sender}`;
+      div.textContent = text;
 
-      // Render citations if sources were returned
       if (sources && sources.length > 0) {
-        const sourceBox = document.createElement("div");
-        sourceBox.className = "source-box";
-        sourceBox.textContent = "Sources: ";
-        
-        sources.forEach(src => {
-          const tag = document.createElement("span");
-          tag.className = "source-tag";
-          tag.textContent = `${src.metadata.source} (Chunk ${src.metadata.chunk_index})`;
-          sourceBox.appendChild(tag);
+        const srcDiv = document.createElement('div');
+        srcDiv.className = 'sources';
+        srcDiv.textContent = 'Sources: ';
+        sources.forEach(s => {
+          const tag = document.createElement('span');
+          tag.className = 'source-tag';
+          tag.textContent = `${s.metadata.source} (#${s.metadata.chunk_index})`;
+          srcDiv.appendChild(tag);
         });
-        
-        msgDiv.appendChild(sourceBox);
+        div.appendChild(srcDiv);
       }
 
-      box.appendChild(msgDiv);
+      box.appendChild(div);
       box.scrollTop = box.scrollHeight;
     }
 
-    function renderLoadingIndicator() {
-      const box = document.getElementById("messagesBox");
-      const indicator = document.createElement("div");
-      indicator.className = "typing-indicator";
-      indicator.id = "activeTyping";
-      indicator.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-      box.appendChild(indicator);
+    function showTyping() {
+      const box = document.getElementById('msg-box');
+      const t = document.createElement('div');
+      t.className = 'typing';
+      t.id = 'active-typing';
+      t.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+      box.appendChild(t);
       box.scrollTop = box.scrollHeight;
     }
 
-    function removeLoadingIndicator() {
-      const el = document.getElementById("activeTyping");
-      if (el) el.remove();
+    function hideTyping() {
+      const t = document.getElementById('active-typing');
+      if (t) t.remove();
     }
 
-    async function submitQuery(e) {
+    async function handleSend(e) {
       e.preventDefault();
-      const input = document.getElementById("queryField");
-      const sendBtn = document.getElementById("sendBtn");
-      const question = input.value.trim();
+      const input = document.getElementById('user-input');
+      const btn = document.getElementById('send-btn');
+      const text = input.value.trim();
+      if (!text) return;
 
-      if (!question) return;
-
-      // 1. Display user query immediately
-      appendMessage(question, "user");
-      input.value = "";
+      appendMessage(text, 'user');
+      input.value = '';
       input.disabled = true;
-      sendBtn.disabled = true;
-
-      // 2. Show typing indicator
-      renderLoadingIndicator();
+      btn.disabled = true;
+      showTyping();
 
       try {
-        // 3. Dispatch POST request to FastAPI backend
-        const response = await fetch(API_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: question, top_k: 3 })
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, top_k: 3, tenant_id: tenantId })
         });
-
-        if (!response.ok) {
-          throw new Error(`Server returned HTTP ${response.status}`);
-        }
-
-        const data = await response.json();
-        removeLoadingIndicator();
-        
-        // 4. Render grounded response and citations
-        appendMessage(data.reply, "bot", data.sources);
-
+        const data = await res.json();
+        hideTyping();
+        appendMessage(data.reply || 'No response.', 'bot', data.sources);
       } catch (err) {
-        removeLoadingIndicator();
-        appendMessage(
-          "Sorry, I encountered an error communicating with the backend. Please check the server logs.",
-          "bot"
-        );
+        hideTyping();
+        appendMessage('Error communicating with backend.', 'bot');
       } finally {
         input.disabled = false;
-        sendBtn.disabled = false;
+        btn.disabled = false;
         input.focus();
       }
     }
   </script>
 </body>
+
 </html>

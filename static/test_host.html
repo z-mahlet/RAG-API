@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Third-Party Host Simulation</title>
+    <style>
+        /* Aggressive global CSS that would break unshielded widgets */
+        * {
+            font-family: "Comic Sans MS", cursive !important;
+            color: darkred !important;
+            border-radius: 0px !important;
+        }
+
+        body {
+            background-color: #fef2f2;
+            padding: 40px;
+        }
+
+        button {
+            background-color: red !important;
+            font-size: 24px !important;
+            padding: 20px !important;
+        }
+
+        input {
+            background-color: yellow !important;
+            font-size: 20px !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Aggressive Host Website</h1>
+    <p>This page applies hostile global CSS (Comic Sans, dark red text, yellow inputs, red buttons).</p>
+    <button>Host Website Button</button>
+    <br><br>
+    <input type="text" placeholder="Host website input field" />
+
+    <!-- Single-line embed script targeting our backend -->
+    <script src="/static/embed.js" data-tenant-id="default">
+    </script>
+
+</body>
+
+</html>
