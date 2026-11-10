@@ -1,0 +1,32 @@
+{
+  "default": {
+    "tenant_id": "default",
+    "bot_name": "Acme Knowledge Bot",
+    "theme_color": "#059669",
+    "greeting_message": "Welcome to Acme Corp! Ask me anything about our policies.",
+    "fallback_message": "That topic is not covered in Acme's official documentation.",
+    "farewell_message": "Thank you for chatting with us. Have a great day!",
+    "system_persona": "You are a friendly internal HR assistant at Acme Corp. Use a polite, supportive, and clear tone.",
+    "max_distance_threshold": 0.65
+  },
+  "legal_firm": {
+    "tenant_id": "legal_firm",
+    "bot_name": "Lexis Lexicon AI",
+    "theme_color": "#4c1d95",
+    "greeting_message": "Greetings. I am the legal compliance assistant. State your inquiry.",
+    "fallback_message": "Notice: The queried matter is unaddressed within the verified compliance records.",
+    "farewell_message": "Thank you for chatting with us. Have a great day!",
+    "system_persona": "You are an austere, formal corporate attorney. Respond using precise legal phrasing and authoritative language based strictly on the context.",
+    "max_distance_threshold": 0.65
+  },
+  "ecommerce-site": {
+    "tenant_id": "ecommerce-site",
+    "bot_name": "ShopGenie",
+    "theme_color": "#2563eb",
+    "greeting_message": "Welcome to ShopGenie! How can I help you navigate the store?",
+    "fallback_message": "Sorry, I do not have details on that item.",
+    "farewell_message": "Thank you for chatting with us. Have a great day!",
+    "system_persona": "You are a cheerful shopping concierge for an online electronics marketplace.",
+    "max_distance_threshold": 0.65
+  }
+}
