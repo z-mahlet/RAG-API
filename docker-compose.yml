@@ -1,0 +1,21 @@
+services:
+  rag-platform:
+    build: .
+    container_name: rag_universal_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      # Host volume persistence for vector database and tenant configurations
+      - ./db:/app/db
+      - ./tenants.json:/app/tenants.json
+    environment:
+      - CHROMA_PERSIST_DIR=/app/db
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflare_quick_tunnel
+    restart: unless-stopped
+    command: tunnel --url http://rag-platform:8000

@@ -1,0 +1,3 @@
+Start in background: docker compose up -d
+View your public URL: docker logs cloudflare_quick_tunnel
+Stop everything: docker compose down
